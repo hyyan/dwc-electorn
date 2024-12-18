@@ -1,0 +1,52 @@
+sysgui = unt
+open (sysgui)"X0"
+sysgui! = bbjapi().getSysGui()
+web! = bbjapi().getWebManager()
+web!.setTheme("system")
+
+window! = sysgui!.addWindow(25,25,200,325,"BBjButton",$00090003$)
+window!.setCallback(window!.ON_CLOSE,"eoj")
+
+default! = window!.addButton(1,25,25,150,25,"OK",$$)
+default!.setToolTipText("BBjButton (Default)")
+default!.setCallback(default!.ON_BUTTON_PUSH,"event")
+default!.focus()
+
+cancel! = window!.addButton(2,25,75,150,25,"Cancel",$$)
+cancel!.setToolTipText("BBjButton (Cancel , Warning)")
+cancel!.setCallback(cancel!.ON_BUTTON_PUSH,"event")
+cancel!.setAttribute("theme", "warning")
+
+ImageManager! = sysgui!.getImageManager()
+openImage! = ImageManager!.loadImageFromServerJar("com/basis/bbj/images/open.gif")
+text! = window!.addButton(101,25,125,150,25,"Open",$$)
+text!.setToolTipText("BBjButton (Text , Primary)")
+text!.setCallback(text!.ON_BUTTON_PUSH,"event")
+text!.setAttribute("theme", "primary")
+text!.setDisableOnClick(BBjAPI.TRUE)
+
+image! = window!.addButton(102,25,175,150,25,"",$$)
+image!.setImage(openImage!)
+image!.setImageSize(openImage!.getWidth(),openImage!.getHeight())
+image!.setToolTipText("BBjButton (Image , success)")
+image!.setCallback(image!.ON_BUTTON_PUSH,"event")
+image!.setAttribute("theme", "success")
+
+both! = window!.addButton(103,25,225,150,25,"Open",$$)
+both!.setImage(openImage!)
+both!.setToolTipText("BBjButton (Text , Image , Info)")
+both!.setCallback(both!.ON_BUTTON_PUSH,"event")
+both!.setAttribute("theme", "info")
+
+close! = window!.addButton(999,25,275,150,25,"Close",$$)
+both!.setToolTipText("BBjButton (Danger)")
+close!.setCallback(close!.ON_BUTTON_PUSH,"eoj")
+close!.setAttribute("theme", "danger")
+process_events
+eoj:
+release
+event:
+event! = sysgui!.getLastEvent()
+button! = event!.getButton()
+i = msgbox(button!.getText()+" "+str(button!.getID()),0,event!.getEventName())
+return
